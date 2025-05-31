@@ -25,12 +25,12 @@ jobs:
 
     - name: Build and push Go service image
       run: |
-        docker build -t $REGISTRY/$IMAGE_OWNER/go-service:latest ./go-service
+        docker build -t $REGISTRY/$IMAGE_OWNER/go-service:latest ./go-app
         docker push $REGISTRY/$IMAGE_OWNER/go-service:latest
 
     - name: Build and push Node.js service image
       run: |
-        docker build -t $REGISTRY/$IMAGE_OWNER/node-service:latest ./node-service
+        docker build -t $REGISTRY/$IMAGE_OWNER/node-service:latest ./node-app
         docker push $REGISTRY/$IMAGE_OWNER/node-service:latest
 
     - name: Upload Kubernetes manifests
