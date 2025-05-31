@@ -4,34 +4,37 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+  packages: write  
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_OWNER: rizkyrs10  
+
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
-
-    env:
-      REGISTRY: ghcr.io
-      IMAGE_OWNER: ${{ github.repository_owner }}
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Log in to GHCR
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+    - name: Log in to GitHub Container Registry (GHCR)
+      run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ env.IMAGE_OWNER }} --password-stdin
 
-    - name: Build & Push Go Service
+    - name: Build and push Go service image
       run: |
         docker build -t $REGISTRY/$IMAGE_OWNER/go-service:latest ./go-service
         docker push $REGISTRY/$IMAGE_OWNER/go-service:latest
 
-    - name: Build & Push Node Service
+    - name: Build and push Node.js service image
       run: |
         docker build -t $REGISTRY/$IMAGE_OWNER/node-service:latest ./node-service
         docker push $REGISTRY/$IMAGE_OWNER/node-service:latest
 
-    - name: Upload Kubernetes Manifests
+    - name: Upload Kubernetes manifests
       uses: actions/upload-artifact@v3
       with:
         name: k8s-manifests
         path: k8s/
-
