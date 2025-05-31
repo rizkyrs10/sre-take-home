@@ -1,9 +1,7 @@
-From golang:1.22-alpine AS builder
+FROM golang:1.20-alpine
 
 WORKDIR /app
-
-Copy . .
-
+COPY . .
 RUN go build -o main .
-
 CMD ["./main"]
+
