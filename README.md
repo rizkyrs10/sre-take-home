@@ -142,3 +142,20 @@ kubectl get services
 ```
 
 
+## Monitoring Design
+propose using Prometheus and Grafana for application and infrastructure monitoring.
+
+Tools:
+* Prometheus – Metrics collection and alerting.
+* Grafana – Dashboard visualization.
+* kube-state-metrics – Monitors Kubernetes resources.
+* node-exporter – Monitors node-level system metrics.
+
+Logging Design
+recommend using a centralized logging stack like the EFK stack:
+
+Tools:
+* Fluent Bit – Lightweight log collector
+* Elasticsearch – Log storage and search
+* Kibana – Visualization
+
